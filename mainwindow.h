@@ -17,6 +17,7 @@ class MainWindow : public QMainWindow
  public:
   MainWindow();
   void onActivated(int index);
+  void onColorChanged(int index); 
   void mySetSize();
 
 private:
@@ -24,7 +25,9 @@ private:
   QPushButton *loadButton;
   QPushButton *quitButton;
   QComboBox* comboBox;
-  QStringList buildOrders = {"scout", "maa", "drush"};
+  QComboBox* colorBox; 
+  QStringList buildOrders = {"scout", "maa", "drush", "archer"};
+  QStringList colors = {"red", "black", "green", "maroon", "purple", "fuchsia", "lime", "olive", "yellow", "navy", "blue", "teal", "aqua"};
   QVBoxLayout *contentLayout;
   QTableWidget *tableWidget; 
   QGridLayout *gridLayout;

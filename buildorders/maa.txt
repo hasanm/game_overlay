@@ -1,3 +1,5 @@
-13 on Food
-Last 2 on Gold
-Vill before gold makes a barrack
+0,6,0,0
+4,6,0,0
+4,13,0,0
+5,13,0,0
+5,13,2,0

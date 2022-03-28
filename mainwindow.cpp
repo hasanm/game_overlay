@@ -16,7 +16,7 @@ MainWindow::MainWindow()
    cols(4)
 {
   qApp->setStyleSheet("QLabel { color: red}");
-
+  
   QWidget *root = new QWidget(this);
   QWidget *top = new QWidget(this);
   QWidget *content = new QWidget(this);
@@ -27,10 +27,16 @@ MainWindow::MainWindow()
   connect(quitButton, &QPushButton::clicked, qApp, &QApplication::quit);
   topLayout->addWidget(quitButton);
 
+  colorBox = new QComboBox(this);
+  colorBox->addItems(colors);
+  connect(colorBox, &QComboBox::activated, this , &MainWindow::onColorChanged);
+  topLayout->addWidget(colorBox); 
+
   comboBox = new QComboBox(this);
   comboBox->addItems(buildOrders);
   connect(comboBox, &QComboBox::activated, this, &MainWindow::onActivated);
   topLayout->addWidget(comboBox);
+  
 
   top->setLayout(topLayout);
 
@@ -67,7 +73,15 @@ MainWindow::MainWindow()
   setAttribute(Qt::WA_NoSystemBackground, true);
   setAttribute(Qt::WA_TranslucentBackground, true);
   // setAttribute(Qt::WA_PaintOnScreen);
-} 
+}
+
+
+void MainWindow::onColorChanged(int index) {
+  QString color;
+  qDebug() << "Chose :  " << index;
+  color = colors.at(index);
+  qApp->setStyleSheet(QString("QLabel { color: %1}").arg(color));
+}
 
 
 void MainWindow::onActivated(int index) {
@@ -92,25 +106,8 @@ void MainWindow::onActivated(int index) {
       } 
     } 
     qDebug() << "Chose :  " << index;
-    switch(index) {
-    case 0:
-        buildOrder = buildOrders.at(index);
-        qDebug() << buildOrder;
-        break;
-    case 1:
-        buildOrder = buildOrders.at(index);
-        qDebug() << buildOrder;
-        break;
-    case 2:
-        buildOrder = buildOrders.at(index);
-        qDebug() << buildOrder;
-        break;
-    default:
-        qDebug() << "Unknown";
-        break;
-    }    
-
-
+    buildOrder = buildOrders.at(index);
+    
     QString fileName = QString(":/%1").arg(buildOrder);
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -120,9 +117,12 @@ void MainWindow::onActivated(int index) {
     int r = 1; 
     while (!in.atEnd()) {
         QString line = in.readLine();
-        qDebug() << line;
-        label = new QLabel(line, this);
-        gridLayout->addWidget(label, r, 0);
+        qDebug() << line;        
+        QStringList parts = line.split(QLatin1Char(','));
+        for (int i =0; i< parts.size() && i < 4; ++i){
+          label = new QLabel(parts.at(i), this);
+          gridLayout->addWidget(label, r, i);          
+        }
         r++;
     }
     file.close();
@@ -133,11 +133,14 @@ void MainWindow::mySetSize() {
     QRect rec = screen->availableGeometry();
     qDebug() << "Hello " << rec.width() << " x " << rec.height();
 
+    int targetWidth = this->width();
+    // int targetWidth = 300;
+
     int height = 180;
     int width = rec.width();
-    int x=(width - this->width());
+    int x=(width - targetWidth);
     int y= 50;
-    this->setGeometry(x,y,this->width(),height);
+    this->setGeometry(x,y,targetWidth,height);
 }
 
 void MainWindow::initIconLabels() {

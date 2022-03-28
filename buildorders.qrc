@@ -1,11 +1,13 @@
-<!DOCTYPE RCC><RCC version="1.0">
-<qresource>
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource>
     <file alias="scout">buildorders/scout.txt</file>
+    <file alias="archer">buildorders/archer.txt</file>  
     <file alias="drush">buildorders/drush.txt</file>
     <file alias="maa">buildorders/maa.txt</file>
     <file>img/wood.png</file>
     <file>img/food.png</file>
     <file>img/gold.png</file>
     <file>img/stone.png</file>    
-</qresource>
+  </qresource>
 </RCC>
