@@ -15,7 +15,7 @@ MainWindow::MainWindow()
   :rows (20),
    cols(4)
 {
-  qApp->setStyleSheet("QLabel { color: red}");
+  qApp->setStyleSheet("QLabel { color: red; font: bold 14px;}");
   
   QWidget *root = new QWidget(this);
   QWidget *top = new QWidget(this);
@@ -80,7 +80,7 @@ void MainWindow::onColorChanged(int index) {
   QString color;
   qDebug() << "Chose :  " << index;
   color = colors.at(index);
-  qApp->setStyleSheet(QString("QLabel { color: %1}").arg(color));
+  qApp->setStyleSheet(QString("QLabel { color: %1; font: bold 14px;}").arg(color));
 }
 
 
